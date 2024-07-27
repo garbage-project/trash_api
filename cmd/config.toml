@@ -1,0 +1,17 @@
+[serverInfo]
+port = "8080"
+service = "alpha"
+log = "./log/admin.txt"
+
+[DB]
+[DB.mysql]
+database = "trash"
+host = "127.0.0.1:3306"
+user = "root"
+password = "root"
+
+[DB.mysql.Collections]
+stock = "stock"
+
+
+
