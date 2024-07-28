@@ -8,5 +8,5 @@ type StockListReq struct {
 }
 
 type StokeIdReq struct {
-	ID int64 `url:"id" binding:"required"`
+	ID int64 `uri:"id" binding:"required"`
 }

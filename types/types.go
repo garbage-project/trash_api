@@ -1,6 +1,7 @@
 package types
 
 type defaultStock struct {
+	ID             int64     `json:"ID" db:"t_id"`
 	Name           string    `json:"name" db:"name"`
 	Location       string    `json:"location" db:"location"`
 	Management     string    `json:"management" db:"management"`
@@ -21,7 +22,7 @@ type StockList struct {
 type Stock struct {
 	defaultStock
 
-	Image []string `json:"image" db:"image"`
+	Image []string `json:"images" db:"images"`
 }
 
 type Reviews struct {

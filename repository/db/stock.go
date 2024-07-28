@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/garbage-project/trash_api.git/repository/db/query"
 	. "github.com/garbage-project/trash_api.git/types"
 	"github.com/upper/db/v4"
 )
@@ -37,5 +38,31 @@ func (s *SQL) StockList(req StockListReq) ([]*StockList, error) {
 }
 
 func (s *SQL) StockDetail(stockId int64) (*Stock, error) {
-	return nil, nil
+
+	//query.StockDetailSelect...
+	iterator := s.sql().
+		Select(query.StockDetailSelect...).
+		From(s.joinAs[s.stock]).
+		LeftJoin(s.joinAs[s.stockImageInfo]).
+		On("s.t_id = sii.t_id").
+		Where(db.Cond{"s.t_id": stockId}).Iterator()
+
+	defer func() {
+		if err := iterator.Close(); err != nil {
+			s.log.ErrLog("Failed To Close Iterator", "err", err.Error())
+		}
+	}()
+
+	var res Stock
+	if err := iterator.One(&res); err != nil {
+		return nil, err
+	} else {
+		if len(res.Image) > 0 {
+			if res.Image[0] == "" {
+				res.Image = []string{}
+			}
+		}
+
+		return &res, nil
+	}
 }

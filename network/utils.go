@@ -19,7 +19,7 @@ func (n *Network) registerRouter() {
 	GET("/health-check", nil)
 
 	POST("/stock-list", n.StockList)
-	GET("/stock-detail")
+	GET("/stock-detail/:id", n.StockDetail)
 	GET("/reviews")
 }
 

@@ -15,7 +15,8 @@ type SQL struct {
 	sess db.Session
 	log  *util.Log
 
-	stock db.Collection
+	stock          db.Collection
+	stockImageInfo db.Collection
 
 	joinAs map[db.Collection]string
 }
@@ -33,7 +34,9 @@ func NewSQL(cfg config.DB, log *util.Log) *SQL {
 		Host:     cfg.Host,
 		User:     cfg.User,
 		Password: cfg.Password,
-		// Options:  map[string]string{}, // TODO 필요하다면 Group By를 위한 세션에서의 조건 수정
+		//Options: map[string]string{
+		//	"sql_mode": "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION",
+		//},
 	}); err != nil {
 		panic(err)
 	} else if err = s.sess.Ping(); err != nil {
@@ -47,6 +50,7 @@ func NewSQL(cfg config.DB, log *util.Log) *SQL {
 		}
 
 		s.stock = register("stock", "s")
+		s.stockImageInfo = register("stock_image_info", "sii")
 		return &s
 	}
 }
